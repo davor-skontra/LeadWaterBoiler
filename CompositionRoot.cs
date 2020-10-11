@@ -4,37 +4,34 @@ using DependencyInjection;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace AlkarInjector
+public abstract class CompositionRoot : MonoBehaviour
 {
-    public abstract class CompositionRoot : MonoBehaviour
-    {
-        private readonly IocContainer.ServiceContainer Services = IocContainer.Services;
-        private List<Type> _sceneBoundServiceTypes = new List<Type>();
+    private readonly IocContainer.ServiceContainer Services = IocContainer.Services;
+    private List<Type> _sceneBoundServiceTypes = new List<Type>();
         
-        private void Start()
-        {
-            Main();
-        }
+    private void Start()
+    {
+        Main();
+    }
 
-        protected abstract void Main();
+    protected abstract void Main();
 
-        protected void RegisterService<TService>(TService service)
-        {
-            _sceneBoundServiceTypes.Add(typeof(TService));
-            Services.Register<TService>(service);
-        }
+    protected void RegisterService<TService>(TService service)
+    {
+        _sceneBoundServiceTypes.Add(typeof(TService));
+        Services.Register<TService>(service);
+    }
 
-        private void ClearSceneBoundServices()
+    private void ClearSceneBoundServices()
+    {
+        foreach (var type in _sceneBoundServiceTypes)
         {
-            foreach (var type in _sceneBoundServiceTypes)
-            {
-                Services.Unregister(type);
-            }
+            Services.Unregister(type);
         }
+    }
 
-        private void OnDestroy()
-        {
-            ClearSceneBoundServices();
-        }
+    private void OnDestroy()
+    {
+        ClearSceneBoundServices();
     }
 }

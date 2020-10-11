@@ -1,6 +1,6 @@
 using System;
 
-namespace AlkarInjector.Utilities
+namespace Utilities
 {
     public static class VarianceUtility
     {
