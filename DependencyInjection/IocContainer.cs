@@ -7,7 +7,6 @@ namespace DependencyInjection
     public static class IocContainer
     {
         private static readonly Dictionary<Type, KnownType> _knownTypes = new Dictionary<Type, KnownType>();
-        
         public static ServiceContainer Services { get; } = new ServiceContainer();
 
         public static void Clear()
@@ -45,6 +44,23 @@ namespace DependencyInjection
             private readonly Dictionary<Type, object> _services = new Dictionary<Type, object>();
 
             public void Clear() => _services.Clear();
+
+            public void Unregister<TService>()
+            {
+                var type = typeof(TService);
+                
+                Unregister(type);
+            }
+
+            public void Unregister(Type type)
+            {
+                if (!_services.ContainsKey(type))
+                {
+                    throw ServiceLocatorException.ShouldExist(type);
+                }
+
+                _services.Remove(type);
+            }
 
             public void Register<TService>(TService service)
             {
