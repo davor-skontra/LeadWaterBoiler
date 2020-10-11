@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace AlkarInjector.Utilities
+namespace Utilities
 {
     public static class KeyValuePairUtility
     {
