@@ -6,6 +6,5 @@ namespace AlkarInjector.Attributes
     [MeansImplicitUse]
     public class InjectComponentAttribute : Attribute
     {
-        
     }
 }

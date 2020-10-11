@@ -10,16 +10,18 @@ namespace AlkarInjector
 {
     public class KnownType
     {
+        private readonly List<FieldInfo> _childComponentFields = new List<FieldInfo>();
+
+        private readonly List<FieldInfo> _childComponentsFields = new List<FieldInfo>();
+
         //Single components
         private readonly List<FieldInfo> _ownComponentFields = new List<FieldInfo>();
-        private readonly List<FieldInfo> _parentComponentFields = new List<FieldInfo>();
-        private readonly List<FieldInfo> _childComponentFields = new List<FieldInfo>();
-        
+
         // Component arrays
         private readonly List<FieldInfo> _ownComponentsFields = new List<FieldInfo>();
-        private readonly List<FieldInfo> _childComponentsFields = new List<FieldInfo>();
+        private readonly List<FieldInfo> _parentComponentFields = new List<FieldInfo>();
         private readonly List<FieldInfo> _parentComponentsFields = new List<FieldInfo>();
-        
+
         // Services
         private readonly List<FieldInfo> _serviceFields = new List<FieldInfo>();
 
@@ -51,7 +53,7 @@ namespace AlkarInjector
                 {
                     _childComponentFields.Add(field);
                 }
-                
+
                 // Component arrays
                 if (HasAttribute<InjectComponentsAttribute>(attributes))
                 {
@@ -67,7 +69,7 @@ namespace AlkarInjector
                 {
                     _childComponentsFields.Add(field);
                 }
-                
+
                 //Attributes
                 if (HasAttribute<InjectAttribute>(attributes))
                 {
@@ -114,6 +116,7 @@ namespace AlkarInjector
             {
                 field.SetValue(monoBehaviour, monoBehaviour.GetComponentInChildren(field.FieldType));
             }
+
             // Component arrays
             foreach (var field in _ownComponentsFields)
             {

@@ -6,7 +6,7 @@ namespace AlkarInjector
 {
     public static class Alkar
     {
-        private static Dictionary<Type, KnownType> _knownTypes = new Dictionary<Type, KnownType>();
+        private static readonly Dictionary<Type, KnownType> _knownTypes = new Dictionary<Type, KnownType>();
 
         public static void Clear()
         {
@@ -22,10 +22,10 @@ namespace AlkarInjector
             {
                 _knownTypes[type] = new KnownType(type);
             }
-            
+
             _knownTypes[type].Resolve(self);
         }
-        
+
         public static void Inject(object self)
         {
             var type = self.GetType();
@@ -34,29 +34,31 @@ namespace AlkarInjector
             {
                 _knownTypes[type] = new KnownType(type);
             }
-            
+
             _knownTypes[type].Resolve(self);
         }
 
         public static class Services
         {
-            private static Dictionary<Type, object> _services = new Dictionary<Type, object>();
+            private static readonly Dictionary<Type, object> _services = new Dictionary<Type, object>();
 
             public static void Clear() => _services.Clear();
+
             public static void Register<TService>(TService service)
             {
                 var type = typeof(TService);
-                
+
                 if (_services.ContainsKey(type))
                 {
                     throw ServiceLocatorException.ShouldNotExist(type);
                 }
+
                 _services[type] = service;
             }
 
-            public static void Register<TRegisterAs, TService>(TService service) where TService: TRegisterAs
+            public static void Register<TRegisterAs, TService>(TService service) where TService : TRegisterAs
             {
-                Register((TService) service);
+                Register(service);
             }
 
             public static object ResolveAnonymous(Type type)
@@ -65,6 +67,7 @@ namespace AlkarInjector
                 {
                     return _services[type];
                 }
+
                 throw ServiceLocatorException.ShouldExist(type);
             }
 
@@ -74,13 +77,12 @@ namespace AlkarInjector
             {
                 private ServiceLocatorException(string message) : base(message)
                 {
-                    
                 }
-                
-                public static ServiceLocatorException ShouldNotExist(Type type) => 
+
+                public static ServiceLocatorException ShouldNotExist(Type type) =>
                     new ServiceLocatorException($"Service Locator already contains type {type})");
-                
-                public static ServiceLocatorException ShouldExist(Type type) => 
+
+                public static ServiceLocatorException ShouldExist(Type type) =>
                     new ServiceLocatorException($"Service Locator does not contains type {type})");
             }
         }

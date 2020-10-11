@@ -2,8 +2,7 @@ using System;
 
 namespace AlkarInjector.Attributes
 {
-    public class InjectParentComponentsAttribute: Attribute
+    public class InjectParentComponentsAttribute : Attribute
     {
-        
     }
 }
