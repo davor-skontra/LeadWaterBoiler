@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AlkarInjector.Attributes
+namespace DependencyInjection.Attributes
 {
     public class InjectParentComponentAttribute : Attribute
     {

@@ -2,11 +2,13 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace AlkarInjector
+namespace DependencyInjection
 {
-    public static class Alkar
+    public static class IocContainer
     {
         private static readonly Dictionary<Type, KnownType> _knownTypes = new Dictionary<Type, KnownType>();
+        
+        public static ServiceContainer Services { get; } = new ServiceContainer();
 
         public static void Clear()
         {
@@ -14,7 +16,7 @@ namespace AlkarInjector
             Services.Clear();
         }
 
-        public static void InjectMonoBehaviour<TMonoBehaviour>(TMonoBehaviour self) where TMonoBehaviour : MonoBehaviour
+        public static void Inject<TMonoBehaviour>(TMonoBehaviour self) where TMonoBehaviour : MonoBehaviour
         {
             var type = typeof(TMonoBehaviour);
 
@@ -38,13 +40,13 @@ namespace AlkarInjector
             _knownTypes[type].Resolve(self);
         }
 
-        public static class Services
+        public class ServiceContainer
         {
-            private static readonly Dictionary<Type, object> _services = new Dictionary<Type, object>();
+            private readonly Dictionary<Type, object> _services = new Dictionary<Type, object>();
 
-            public static void Clear() => _services.Clear();
+            public void Clear() => _services.Clear();
 
-            public static void Register<TService>(TService service)
+            public void Register<TService>(TService service)
             {
                 var type = typeof(TService);
 
@@ -56,12 +58,12 @@ namespace AlkarInjector
                 _services[type] = service;
             }
 
-            public static void Register<TRegisterAs, TService>(TService service) where TService : TRegisterAs
+            public void Register<TRegisterAs, TService>(TService service) where TService : TRegisterAs
             {
                 Register(service);
             }
 
-            public static object ResolveAnonymous(Type type)
+            public object ResolveAnonymous(Type type)
             {
                 if (_services.ContainsKey(type))
                 {
@@ -71,7 +73,7 @@ namespace AlkarInjector
                 throw ServiceLocatorException.ShouldExist(type);
             }
 
-            public static TType Resolve<TType>() => (TType) ResolveAnonymous(typeof(TType));
+            public TType Resolve<TType>() => (TType) ResolveAnonymous(typeof(TType));
 
             public class ServiceLocatorException : Exception
             {

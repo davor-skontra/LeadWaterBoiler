@@ -1,7 +1,7 @@
 using System;
 using JetBrains.Annotations;
 
-namespace AlkarInjector.Attributes
+namespace DependencyInjection.Attributes
 {
     [MeansImplicitUse]
     public class InjectChildComponentsAttribute : Attribute

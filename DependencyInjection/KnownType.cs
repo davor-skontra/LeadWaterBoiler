@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using AlkarInjector.Attributes;
 using AlkarInjector.Utilities;
+using DependencyInjection.Attributes;
 using UnityEngine;
 
-namespace AlkarInjector
+namespace DependencyInjection
 {
     public class KnownType
     {
@@ -95,7 +95,7 @@ namespace AlkarInjector
         {
             foreach (var field in _serviceFields)
             {
-                field.SetValue(target, Alkar.Services.ResolveAnonymous(field.FieldType));
+                field.SetValue(target, IocContainer.Services.ResolveAnonymous(field.FieldType));
             }
         }
 
@@ -138,7 +138,7 @@ namespace AlkarInjector
 
             foreach (var field in _serviceFields)
             {
-                field.SetValue(monoBehaviour, Alkar.Services.ResolveAnonymous(field.FieldType));
+                field.SetValue(monoBehaviour, IocContainer.Services.ResolveAnonymous(field.FieldType));
             }
 
             void SetValueWithFieldConversion(Type elementType, FieldInfo field, Func<Type, object[]> getter)
