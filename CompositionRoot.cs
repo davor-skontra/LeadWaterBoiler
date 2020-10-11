@@ -8,13 +8,8 @@ public abstract class CompositionRoot : MonoBehaviour
 {
     private readonly IocContainer.ServiceContainer Services = IocContainer.Services;
     private List<Type> _sceneBoundServiceTypes = new List<Type>();
-        
-    private void Start()
-    {
-        Main();
-    }
 
-    protected abstract void Main();
+    public abstract void Main();
 
     protected void RegisterService<TService>(TService service)
     {
