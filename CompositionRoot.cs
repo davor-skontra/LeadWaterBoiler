@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using DependencyInjection;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public abstract class CompositionRoot : MonoBehaviour
 {
-    private readonly IocContainer.ServiceContainer Services = IocContainer.Services;
+    private readonly IocContainer.ServiceContainer _services = IocContainer.Services;
+    
     private List<Type> _sceneBoundServiceTypes = new List<Type>();
 
     public abstract void Main();
@@ -14,14 +14,14 @@ public abstract class CompositionRoot : MonoBehaviour
     protected void RegisterService<TService>(TService service)
     {
         _sceneBoundServiceTypes.Add(typeof(TService));
-        Services.Register<TService>(service);
+        _services.Register<TService>(service);
     }
 
     private void ClearSceneBoundServices()
     {
         foreach (var type in _sceneBoundServiceTypes)
         {
-            Services.Unregister(type);
+            _services.Unregister(type);
         }
     }
 
