@@ -17,7 +17,7 @@ namespace DependencyInjection
 
         public static void Inject<TMonoBehaviour>(TMonoBehaviour self) where TMonoBehaviour : MonoBehaviour
         {
-            var type = typeof(TMonoBehaviour);
+            var type = self.GetType();
 
             if (!_knownTypes.ContainsKey(type))
             {
