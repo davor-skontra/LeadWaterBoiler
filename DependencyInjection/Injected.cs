@@ -2,9 +2,9 @@ using UnityEngine;
 
 namespace DependencyInjection
 {
-    public static class Make
+    public static class Injected
     {
-        public static TMonoBehaviour Injected<TMonoBehaviour>(TMonoBehaviour behaviour, Transform parent = null)
+        public static TMonoBehaviour Create<TMonoBehaviour>(TMonoBehaviour behaviour, Transform parent = null)
             where TMonoBehaviour : MonoBehaviour
         {
             var result = Object.Instantiate(behaviour, parent);
@@ -16,7 +16,7 @@ namespace DependencyInjection
             return result;
         }
         
-        public static GameObject Injected(GameObject original, Transform parent = null)
+        public static GameObject Create(GameObject original, Transform parent = null)
         {
             var result = Object.Instantiate(original, parent);
             
