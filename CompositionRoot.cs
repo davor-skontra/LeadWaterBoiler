@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using DependencyInjection;
+using DependencyInjection.Containers;
 using UnityEngine;
 
 public abstract class CompositionRoot : MonoBehaviour

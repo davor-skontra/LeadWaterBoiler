@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace DependencyInjection
+namespace DependencyInjection.Containers
 {
     public static partial class IocContainer
     {

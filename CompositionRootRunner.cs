@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using DependencyInjection;
+using DependencyInjection.Containers;
 using UnityEngine;
 
 public class CompositionRootRunner: MonoBehaviour

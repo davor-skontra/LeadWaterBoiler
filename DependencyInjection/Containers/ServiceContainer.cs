@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace DependencyInjection
+namespace DependencyInjection.Containers
 {
     public static partial class IocContainer
     {

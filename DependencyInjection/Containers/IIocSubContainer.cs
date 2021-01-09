@@ -1,6 +1,6 @@
 using System;
 
-namespace DependencyInjection
+namespace DependencyInjection.Containers
 {
     public interface IIocSubContainer
     {
