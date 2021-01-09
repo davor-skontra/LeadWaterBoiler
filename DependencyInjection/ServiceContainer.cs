@@ -5,7 +5,7 @@ namespace DependencyInjection
 {
     public static partial class IocContainer
     {
-        public class ServiceContainer
+        public class ServiceContainer : IIocSubContainer
         {
             private readonly Dictionary<Type, object> _services = new Dictionary<Type, object>();
 
