@@ -4,10 +4,11 @@ using UnityEngine;
 
 namespace DependencyInjection.Containers
 {
-    public static partial class IocContainer
+    public static class IocContainer
     {
         private static readonly Dictionary<Type, KnownType> _knownTypes = new Dictionary<Type, KnownType>();
         public static ServiceContainer Services { get; } = new ServiceContainer();
+        public static FactoryContainer Factories { get; } = new FactoryContainer();
 
         public static void Clear()
         {

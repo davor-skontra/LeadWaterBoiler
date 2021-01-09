@@ -6,7 +6,7 @@ using UnityEngine;
 
 public abstract class CompositionRoot : MonoBehaviour
 {
-    private readonly IocContainer.ServiceContainer _services = IocContainer.Services;
+    private readonly ServiceContainer _services = IocContainer.Services;
     
     private List<Type> _sceneBoundServiceTypes = new List<Type>();
 
