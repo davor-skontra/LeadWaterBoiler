@@ -12,6 +12,11 @@ public abstract class CompositionRoot : MonoBehaviour
 
     public abstract void Main();
 
+    public virtual void AfterInject()
+    {
+        
+    }
+
     protected void RegisterService<TService>(TService service)
     {
         _sceneBoundRegisteredTypes.Add(typeof(TService));

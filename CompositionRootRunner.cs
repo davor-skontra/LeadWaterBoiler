@@ -17,6 +17,8 @@ public class CompositionRootRunner: MonoBehaviour
         {
             IocContainer.Inject(injectable);
         }
+        
+        _compositionRoot.AfterInject();
     }
 
     private MonoBehaviour[] GetInjectableMonoBehaviours() => gameObject
