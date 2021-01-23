@@ -7,14 +7,14 @@ namespace DependencyInjection.Containers
     public static class IocContainer
     {
         private static readonly Dictionary<Type, KnownType> _knownTypes = new Dictionary<Type, KnownType>();
-        public static ServiceContainer Services { get; } = new ServiceContainer();
-        public static FactoryContainer Factories { get; } = new FactoryContainer();
+
+        public static Registry Registry { get; } = new Registry();
 
         public static void Clear()
         {
             _knownTypes.Clear();
-            Services.Clear();
         }
+        
 
         public static void Inject<TMonoBehaviour>(TMonoBehaviour self) where TMonoBehaviour : MonoBehaviour
         {

@@ -96,7 +96,7 @@ namespace DependencyInjection
         {
             foreach (var field in _injectedFields)
             {
-                field.SetValue(target, IocContainer.Services.ResolveAnonymous(field.FieldType));
+                field.SetValue(target, IocContainer.Registry.ResolveAnonymous(field.FieldType));
             }
         }
 
@@ -139,7 +139,7 @@ namespace DependencyInjection
 
             foreach (var field in _injectedFields)
             {
-                field.SetValue(monoBehaviour, IocContainer.Services.ResolveAnonymous(field.FieldType));
+                field.SetValue(monoBehaviour, IocContainer.Registry.ResolveAnonymous(field.FieldType));
             }
 
             void SetValueWithFieldConversion(Type elementType, FieldInfo field, Func<Type, object[]> getter)
