@@ -14,25 +14,54 @@ namespace DependencyInjection
             Factories.Clear();
         }
 
-        public object ResolveAnonymous(Type type) =>
-            Services.Contains(type) 
-                ? Services.ResolveAnonymous(type) 
-                : Factories.ResolveAnonymous(type);
-        
+        public object ResolveAnonymous(Type type)
+        {
+            if (Services.Contains(type))
+            {
+                return Services.ResolveAnonymous(type);
+            }
+
+            if (Factories.Contains(type))
+            {
+                return Factories.ResolveAnonymous(type);
+            }
+            
+            throw IocException.ShouldExist(type);
+        }
+
 
         public void RegisterService<TService>(TService service)
         {
+            var type = typeof(TService);
+            
+            if (TypeIsRegistered(type))
+            {
+                throw IocException.ShouldNotExist(type);
+            }
+            
             Services.Register<TService>(service);
         }
 
         public void RegisterFactory<TProduced>(Func<TProduced> factoryMethod) where TProduced: class
         {
+            var type = typeof(TProduced);
+            
+            if (TypeIsRegistered(type))
+            {
+                throw IocException.ShouldNotExist(type);
+            }
+            
             Factories.Register<TProduced>(factoryMethod);
         }
 
         public void Unregister(Type type)
         {
-            throw new NotImplementedException();
+            if (!TypeIsRegistered(type))
+            {
+                throw IocException.ShouldExist(type);
+            }
         }
+
+        public bool TypeIsRegistered(Type type) => Services.Contains(type) || Factories.Contains(type);
     }
 }
