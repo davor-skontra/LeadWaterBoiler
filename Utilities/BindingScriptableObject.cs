@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Utilities
 {
-    public class BindingScriptableObject<TKey, TValue>: ScriptableObject
+    public abstract class BindingScriptableObject<TKey, TValue>: ScriptableObject
     {
         [SerializeField] private Binding[] _bindings;
         
