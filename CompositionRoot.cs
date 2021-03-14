@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using DependencyInjection;
 using DependencyInjection.Containers;
 using UnityEngine;
+using Utilities.Coroutines;
 
-public abstract class CompositionRoot : MonoBehaviour
+public abstract class CompositionRoot : MonoBehaviour, ICoroutineRunner
 {
     private readonly Registry _registry = IocContainer.Registry;
     
