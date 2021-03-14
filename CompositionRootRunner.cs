@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using DependencyInjection;
+using DependencyInjection.Containers;
 using UnityEngine;
 
 public class CompositionRootRunner: MonoBehaviour
@@ -16,6 +17,8 @@ public class CompositionRootRunner: MonoBehaviour
         {
             IocContainer.Inject(injectable);
         }
+        
+        _compositionRoot.AfterInject();
     }
 
     private MonoBehaviour[] GetInjectableMonoBehaviours() => gameObject

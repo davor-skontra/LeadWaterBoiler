@@ -1,6 +1,8 @@
+using DependencyInjection.Containers;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
-namespace DependencyInjection
+namespace DependencyInjection.ManualInjection
 {
     public static class Injected
     {

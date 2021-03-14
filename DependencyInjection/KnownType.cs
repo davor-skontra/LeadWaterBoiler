@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using DependencyInjection.Attributes;
+using DependencyInjection.Containers;
 using UnityEngine;
 using Utilities;
 
@@ -23,7 +24,7 @@ namespace DependencyInjection
         private readonly List<FieldInfo> _parentComponentsFields = new List<FieldInfo>();
 
         // Services
-        private readonly List<FieldInfo> _serviceFields = new List<FieldInfo>();
+        private readonly List<FieldInfo> _injectedFields = new List<FieldInfo>();
 
         public KnownType(Type type)
         {
@@ -73,7 +74,7 @@ namespace DependencyInjection
                 //Attributes
                 if (HasAttribute<InjectAttribute>(attributes))
                 {
-                    _serviceFields.Add(field);
+                    _injectedFields.Add(field);
                 }
             }
 
@@ -93,9 +94,9 @@ namespace DependencyInjection
 
         public void Resolve(object target)
         {
-            foreach (var field in _serviceFields)
+            foreach (var field in _injectedFields)
             {
-                field.SetValue(target, IocContainer.Services.ResolveAnonymous(field.FieldType));
+                field.SetValue(target, IocContainer.Registry.ResolveAnonymous(field.FieldType));
             }
         }
 
@@ -136,9 +137,9 @@ namespace DependencyInjection
                 SetValueWithFieldConversion(elementType, field, monoBehaviour.GetComponentsInChildren);
             }
 
-            foreach (var field in _serviceFields)
+            foreach (var field in _injectedFields)
             {
-                field.SetValue(monoBehaviour, IocContainer.Services.ResolveAnonymous(field.FieldType));
+                field.SetValue(monoBehaviour, IocContainer.Registry.ResolveAnonymous(field.FieldType));
             }
 
             void SetValueWithFieldConversion(Type elementType, FieldInfo field, Func<Type, object[]> getter)
