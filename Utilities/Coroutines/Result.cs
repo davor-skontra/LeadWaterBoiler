@@ -5,17 +5,10 @@ using Utilities.Coroutines;
 
 public class Result<TReturned>
 {
-    private readonly ICoroutineRunner _runner;
     
     private bool _hasBeenSet;
     private TReturned _return;
-
-    public Result(ICoroutineRunner runner)
-    {
-        _runner = runner;
-        Await = runner.StartCoroutine(WaitRoutine());
-    }
-
+    
     public TReturned Return
     {
         get
@@ -32,16 +25,8 @@ public class Result<TReturned>
             _return = value;
         }
     }
-    
-    public Coroutine Await { get; }
 
-    public IEnumerator WaitRoutine()
-    {
-        while (!_hasBeenSet)
-        {
-            yield return null;
-        }
-    }
+    public CustomYieldInstruction Await => new WaitUntil(() => _hasBeenSet);
 
     public class Exception : System.Exception
     {
