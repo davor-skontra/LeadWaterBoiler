@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace Utilities.Coroutines
+namespace Utilities
 {
     public interface ICoroutineRunner
     {

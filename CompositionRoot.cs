@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using DependencyInjection;
 using DependencyInjection.Containers;
 using UnityEngine;
-using Utilities.Coroutines;
+using Utilities;
 
 public abstract class CompositionRoot : MonoBehaviour, ICoroutineRunner
 {
