@@ -1,41 +1,74 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Utilities.Coroutines;
 
-public class Result<TReturned>
+namespace Utilities.Coroutines
 {
-    
-    private bool _hasBeenSet;
-    private TReturned _return;
-    
-    public TReturned Return
+    public class Result<TReturned>
     {
-        get
+    
+        private bool _hasBeenSet;
+        private TReturned _return;
+        private List<Action<TReturned>> notifyResultActions = new List<Action<TReturned>>();
+    
+        public TReturned Return
         {
-            if (!_hasBeenSet)
+            get
             {
-                throw Exception.ResultNotSet();
+                if (!_hasBeenSet)
+                {
+                    throw Exception.ResultNotSet();
+                }
+                return _return;
             }
-            return _return;
+            set
+            {
+                if (_hasBeenSet)
+                {
+                    throw Exception.ResultAlreadySet();
+                }
+                
+                _hasBeenSet = true;
+                _return = value;
+                foreach (var notifyResult in notifyResultActions)
+                {
+                    notifyResult(value);
+                }
+            }
         }
-        set
+
+        public void Then(Action<TReturned> onResultReady)
         {
-            _hasBeenSet = true;
-            _return = value;
+            if (_hasBeenSet)
+            {
+                onResultReady(_return);
+            }
+            else
+            {
+                notifyResultActions.Add(onResultReady);
+            }
+        }
+
+        public CustomYieldInstruction Await => new WaitUntil(() => _hasBeenSet);
+
+        public class Exception : System.Exception
+        {
+            private Exception(string message) : base(message)
+            {
+            
+            }
+
+            public static Exception ResultNotSet() => 
+                new Exception($"Result for type {typeof(TReturned)} has not been set yet");
+            
+            public static Exception ResultAlreadySet() =>
+                new Exception($"Result for type {typeof(TReturned)} has already been set yet");
+
         }
     }
 
-    public CustomYieldInstruction Await => new WaitUntil(() => _hasBeenSet);
-
-    public class Exception : System.Exception
+    public class Nothing
     {
-        private Exception(string message) : base(message)
-        {
-            
-        }
-
-        public static Exception ResultNotSet() => 
-            new Exception($"Result for type {typeof(TReturned)} has not been set yet");
+        // No result
     }
 }
