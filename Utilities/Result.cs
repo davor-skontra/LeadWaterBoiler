@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Utilities.Coroutines
+namespace Utilities
 {
     public class Result<TReturned>
     {
@@ -37,7 +37,22 @@ namespace Utilities.Coroutines
             }
         }
 
-        public void Then(Action<TReturned> onResultReady)
+        public Result<TNextReturned> Then<TNextReturned>(Func<TReturned, Result<TNextReturned>> onTimeForNextResult)
+        {
+            var nextResult = new Result<TNextReturned>();
+            
+            _notifyResultActions.Add(OnResultReady);
+
+            return nextResult;
+
+            void OnResultReady(TReturned returned)
+            {
+                onTimeForNextResult(returned)
+                    .Finally(x => nextResult.Return = x);
+            }
+        }
+
+        public void Finally(Action<TReturned> onResultReady)
         {
             if (_hasBeenSet)
             {
