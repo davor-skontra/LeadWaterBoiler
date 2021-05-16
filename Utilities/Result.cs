@@ -9,7 +9,7 @@ namespace Utilities.Coroutines
     
         private bool _hasBeenSet;
         private TReturned _return;
-        private List<Action<TReturned>> notifyResultActions = new List<Action<TReturned>>();
+        private List<Action<TReturned>> _notifyResultActions = new List<Action<TReturned>>();
     
         public TReturned Return
         {
@@ -30,7 +30,7 @@ namespace Utilities.Coroutines
                 
                 _hasBeenSet = true;
                 _return = value;
-                foreach (var notifyResult in notifyResultActions)
+                foreach (var notifyResult in _notifyResultActions)
                 {
                     notifyResult(value);
                 }
@@ -45,7 +45,7 @@ namespace Utilities.Coroutines
             }
             else
             {
-                notifyResultActions.Add(onResultReady);
+                _notifyResultActions.Add(onResultReady);
             }
         }
 
